@@ -5,17 +5,19 @@ function Login() {
   const [passwordInput, setPasswordInput] = useState('');
   const [loginButton, setLoginButton] = useState(true);
 
-  const enableButton = () => {
-    const minCaractersPassword = 6;
-    const mailformat = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+  useEffect(() => {
+    const enableButton = () => {
+      const minCaractersPassword = 6;
+      const mailformat = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
-    const enable = [
-      passwordInput.length > minCaractersPassword,
-      emailInput.match(mailformat),
-    ].every(Boolean);
-    setLoginButton(!enable);
-  };
-  useEffect(() => enableButton(), [emailInput, passwordInput]);
+      const enable = [
+        passwordInput.length > minCaractersPassword,
+        emailInput.match(mailformat),
+      ].every(Boolean);
+      setLoginButton(!enable);
+    };
+    enableButton();
+  }, [emailInput, passwordInput]);
 
   const emailInputChange = ({ target }) => {
     const { value } = target;

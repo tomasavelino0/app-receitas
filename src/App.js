@@ -29,5 +29,7 @@ function App() {
         <Route exact path="/" component={ Login } />
       </Switch>
     </main>
+  );
+}
 
 export default App;
