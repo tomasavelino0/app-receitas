@@ -10,8 +10,8 @@ import FavoriteRecipes from './pages/Favorite Recipes';
 import DrinksRecipes from './pages/Drinks Recipes';
 import MealsRecipes from './pages/Meals Recipes';
 import DrinksRecipesProgress from './pages/Drinks Recipes Progress';
-import MealsRecipesProgress from './pages/Meals Recipe Progress';
 import Login from './pages/Login';
+import MealsRecipesProgress from './pages/Meals Recipe Progress';
 
 function App() {
   return (
