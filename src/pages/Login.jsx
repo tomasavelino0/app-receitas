@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import saveEmail from '../services/localStorage';
 
 function Login() {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [loginButton, setLoginButton] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     const enableButton = () => {
@@ -29,6 +32,13 @@ function Login() {
     setPasswordInput(value);
   };
 
+  const loginStorageHandle = () => {
+    saveEmail({ email: emailInput });
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('drinksToken', 1);
+    history.push('/meals');
+  };
+
   return (
     <main>
       <label htmlFor="emailInput">
@@ -51,6 +61,7 @@ function Login() {
         disabled={ loginButton }
         type="button"
         data-testid="login-submit-btn"
+        onClick={ loginStorageHandle }
       >
         Enter
 
