@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { fetchApiIngredient, fetchAPIFirstLetter,
   fetchAPIName } from '../services/fetchAPI';
 
@@ -8,6 +9,10 @@ function SearchBar() {
     searchType: '',
   });
 
+  const [resultsAPI, setResultsAPI] = useState({});
+
+  const history = useHistory();
+
   const handleChange = ({ target: { value, name } }) => {
     setFormSearch({
       ...formSearch,
@@ -16,6 +21,20 @@ function SearchBar() {
   };
 
   const { searchByText, searchType } = formSearch;
+
+  // useEffect(() => {
+  //   if (Object.keys(resultsAPI).length > 0) {
+  //     if (Object.keys(resultsAPI.drinks).length === 1) {
+  //       history
+  //         .push(`/drinks/${resultsAPI.drinks[0].idDrink}`);
+  //     }
+  //     if (Object.keys(resultsAPI.meals).length === 1) {
+  //       history
+  //         .push(`/meals/${resultsAPI.meals[0].idMeal}`);
+  //     }
+  //     return null;
+  //   }
+  // }, [resultsAPI, history]);
 
   const handleClick = async () => {
     let typeFood;
@@ -29,16 +48,19 @@ function SearchBar() {
     switch (searchType) {
     case 'Ingredient':
       await fetchApiIngredient(searchByText, typeFood);
+      // .then((response) => setResultsAPI(response))
+      // .catch((error) => console.log(error));
       break;
     case 'First letter':
-      await fetchAPIFirstLetter(searchByText, typeFood);
+      setResultsAPI(await fetchAPIFirstLetter(searchByText, typeFood));
       break;
     case 'Name':
-      await fetchAPIName(searchByText, typeFood);
+      setResultsAPI(await fetchAPIName(searchByText, typeFood));
       break;
     default:
       break;
     }
+    console.log(resultsAPI);
   };
 
   return (
