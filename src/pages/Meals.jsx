@@ -1,9 +1,15 @@
+import React, { useContext } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from '../components/Recipes';
-import Provider from '../context/Provider';
+import RecipesContext from '../context/RecipesContext';
+
+const MIN = 11;
 
 function Meals() {
+  const { recipes } = useContext(RecipesContext);
+  const recipesFiltered = recipes.meals.filter((_, index) => index <= MIN);
+
   return (
     <section>
       <Header isRenderSearch isRenderProfile title="Meals" />
@@ -18,9 +24,7 @@ function Meals() {
           <h2 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h2>
         </section>
       ))}
-      <Provider>
-        <Recipes isRenderMeals />
-      </Provider>
+      <Recipes isRenderMeals />
       <Footer />
     </section>
   );
