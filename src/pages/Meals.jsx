@@ -23,7 +23,7 @@ function Meals() {
           />
           <h2 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h2>
         </section>
-      ))) : <Recipes isRenderMeals />}
+      ))) : <Recipes isRenderMeals isRenderMealsCategory />}
       <Footer />
     </section>
   );

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { node } from 'prop-types';
 import RecipesContext from './RecipesContext';
-import { fetchDrinks } from '../services/fetchAPI';
+import { fetchDrinks,
+  fetchMealsCategorys,
+  fetchDrinksCategory } from '../services/fetchAPI';
 
 function Provider({ children }) {
   const [resultApi, setResultApi] = useState({
     drinks: [],
     meals: [],
+    mealsCategorys: [],
+    drinkCategorys: [],
   });
   const [recipes, setRecipes] = useState({
     drinks: [],
@@ -19,6 +23,8 @@ function Provider({ children }) {
       .then(async (data) => setResultApi({
         meals: data.meals,
         drinks: await fetchDrinks(),
+        mealsCategorys: await fetchMealsCategorys(),
+        drinkCategorys: await fetchDrinksCategory(),
       }));
   }, []);
 

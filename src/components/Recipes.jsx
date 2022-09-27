@@ -2,15 +2,36 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 
-function Recipes({ isRenderMeals = true }) {
+function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
   const [recipesRender, setRecipesRender] = useState([]);
   const [drinksRender, setDrinksRender] = useState([]);
+  const [mealsCategoryRender, setCategoryRender] = useState([]);
+  const [drinkCategoryRender, setDrinkCategoryRender] = useState([]);
+
   const { resultApi } = useContext(RecipesContext);
-  const { meals, drinks } = resultApi;
+  const { meals, drinks, mealsCategorys, drinkCategorys } = resultApi;
   useEffect(() => {
+    const maxCategory = 5;
+    const arrayMealsCategory = [];
+    const arrayDrinkCategorys = [];
+
+    setCategoryRender(arrayMealsCategory);
+    setDrinkCategoryRender(arrayDrinkCategorys);
     const maxRecipesRender = 12;
     const array12Meals = [];
     const array12Drinks = [];
+
+    drinkCategorys.forEach((category, i) => {
+      if (i < maxCategory) {
+        arrayDrinkCategorys.push(category);
+      }
+    });
+
+    mealsCategorys.forEach((category, i) => {
+      if (i < maxCategory) {
+        arrayMealsCategory.push(category);
+      }
+    });
     meals.forEach((recipe, i) => {
       if (i < maxRecipesRender) {
         array12Meals.push(recipe);
@@ -23,10 +44,33 @@ function Recipes({ isRenderMeals = true }) {
     });
     setDrinksRender(array12Drinks);
     setRecipesRender(array12Meals);
-  }, [meals, drinks]);
+  }, [meals, drinks, mealsCategorys, drinkCategorys]);
 
   return (
     <main>
+      <div>
+        {isRenderMealsCategory && (mealsCategoryRender.map((category, i) => (
+          <button
+            data-testid={ `${category.strCategory}-category-filter` }
+            key={ i }
+            type="button"
+          >
+            {category.strCategory}
+            {' '}
+          </button>
+        )))}
+        {!isRenderMealsCategory && (drinkCategoryRender.map((category, i) => (
+          <button
+            data-testid={ `${category.strCategory}-category-filter` }
+            key={ i }
+            type="button"
+          >
+            {category.strCategory}
+
+          </button>
+        )))}
+      </div>
+
       {isRenderMeals && (recipesRender.map((recipe, index) => (
         <section data-testid={ `${index}-recipe-card` } key={ recipe.idMeal }>
           <img
@@ -57,6 +101,7 @@ function Recipes({ isRenderMeals = true }) {
 
 Recipes.propTypes = {
   isRenderMeals: PropTypes.bool.isRequired,
+  isRenderMealsCategory: PropTypes.bool.isRequired,
 };
 
 export default Recipes;

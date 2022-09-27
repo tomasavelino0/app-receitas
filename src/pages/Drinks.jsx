@@ -23,7 +23,7 @@ function Drinks() {
           />
           <h2 data-testid={ `${index}-card-name` }>{recipe.strDrink}</h2>
         </section>
-      ))) : <Recipes isRenderMeals={ false } />}
+      ))) : <Recipes isRenderMeals={ false } isRenderMealsCategory={ false } />}
       <Footer />
     </section>
   );
