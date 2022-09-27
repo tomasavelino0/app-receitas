@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { node } from 'prop-types';
 import RecipesContext from './RecipesContext';
+import { fetchDrinks } from '../services/fetchAPI';
 
 function Provider({ children }) {
   const [recipes, setRecipes] = useState({
     drinks: [],
     meals: [],
   });
+
+  useEffect(() => {
+    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+      .then((response) => response.json())
+      .then(async (data) => setRecipes({
+        meals: data.meals,
+        drinks: await fetchDrinks(),
+      }));
+  }, []);
 
   const state = {
     recipes,
