@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
@@ -11,7 +10,7 @@ function Drinks() {
   const recipesFiltered = recipes.drinks.filter((_, index) => index <= MIN);
 
   return (
-    <div>
+    <section>
       <Header isRenderSearch isRenderProfile title="Drinks" />
       {recipesFiltered.map((recipe, index) => (
         <section key={ index } data-testid={ `${index}-recipe-card` }>
@@ -24,7 +23,7 @@ function Drinks() {
         </section>
       ))}
       <Footer />
-    </div>
+    </section>
   );
 }
 
