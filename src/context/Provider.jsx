@@ -1,9 +1,17 @@
-// import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { node } from 'prop-types';
 import RecipesContext from './RecipesContext';
 
 function Provider({ children }) {
-  // const [isValue, setIsValue] = useState();
+  const [recipes, setRecipes] = useState({
+    drinks: [],
+    meals: [],
+  });
+
+  const state = {
+    recipes,
+    setRecipes,
+  };
 
   return (
     <RecipesContext.Provider value={ state }>
