@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import React from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 
@@ -21,6 +23,7 @@ function Drinks() {
           <h1 data-testid={ `${index}-card-name` }>{recipe.strDrink}</h1>
         </section>
       ))}
+      <Footer />
     </div>
   );
 }
