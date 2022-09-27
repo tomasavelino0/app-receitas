@@ -5,8 +5,8 @@ import RecipesContext from '../context/RecipesContext';
 function Recipes({ isRenderMeals = true }) {
   const [recipesRender, setRecipesRender] = useState([]);
   const [drinksRender, setDrinksRender] = useState([]);
-  const { recipes } = useContext(RecipesContext);
-  const { meals, drinks } = recipes;
+  const { resultApi } = useContext(RecipesContext);
+  const { meals, drinks } = resultApi;
   useEffect(() => {
     const maxRecipesRender = 12;
     const array12Meals = [];
@@ -30,6 +30,7 @@ function Recipes({ isRenderMeals = true }) {
       {isRenderMeals && (recipesRender.map((recipe, index) => (
         <section data-testid={ `${index}-recipe-card` } key={ recipe.idMeal }>
           <img
+            width="16%"
             data-testid={ `${index}-card-img` }
             src={ recipe.strMealThumb }
             alt={ recipe.strMeal }
@@ -40,6 +41,7 @@ function Recipes({ isRenderMeals = true }) {
       {!isRenderMeals && (drinksRender.map((drink, index) => (
         <section data-testid={ `${index}-recipe-card` } key={ drink.idDrink }>
           <img
+            width="16%"
             data-testid={ `${index}-card-img` }
             src={ drink.strDrinkThumb }
             alt={ drink.strDrink }

@@ -13,7 +13,7 @@ function Drinks() {
   return (
     <section>
       <Header isRenderSearch isRenderProfile title="Drinks" />
-      {recipesFiltered.map((recipe, index) => (
+      {recipesFiltered.length > 0 ? (recipesFiltered.map((recipe, index) => (
         <section key={ index } data-testid={ `${index}-recipe-card` }>
           <img
             width="16%"
@@ -23,9 +23,7 @@ function Drinks() {
           />
           <h2 data-testid={ `${index}-card-name` }>{recipe.strDrink}</h2>
         </section>
-      ))}
-      <Header isRenderSearch isRenderProfile title="Meals" />
-      <Recipes isRenderMeals={ false } />
+      ))) : <Recipes isRenderMeals={ false } />}
       <Footer />
     </section>
   );
