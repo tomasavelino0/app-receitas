@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import Header from '../components/Header';
 import renderWithRouter from '../services/renderWithRouter';
 import Login from '../pages/Login';
+import App from '../App';
 
 describe('Testes do componente Header', () => {
   it('Testa se os componentes são renderizados na tela', () => {
@@ -27,7 +28,8 @@ describe('Testes do componente Header', () => {
   });
 
   it('Testa o botão Search', () => {
-    render(<Header title="Meals" isRenderSearch />);
+    const { history } = renderWithRouter(<App />);
+    history.push('/meals');
     const searchIcon = screen.getByTestId('search-top-btn');
     userEvent.click(searchIcon);
     const input = screen.getByTestId('search-input');
@@ -45,6 +47,12 @@ describe('Testes do componente Header', () => {
   it('Testa o Header com default parâmetros diferentes', () => {
     render(<Header isRenderProfile isRenderSearch />);
     const header = screen.queryByText('Título da Página Header');
+    expect(header).toBeInTheDocument();
+  });
+
+  it('Testa o Header na página drinks', () => {
+    render(<Header title="Drinks" isRenderProfile isRenderSearch />);
+    const header = screen.queryByText('Título da Página Drinks');
     expect(header).toBeInTheDocument();
   });
 });

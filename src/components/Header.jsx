@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
-function Header({ title = 'Header', isRenderProfile = false, isRenderSearch = false }) {
+function Header({ title = 'Header', isRenderProfile, isRenderSearch }) {
   const history = useHistory();
   const [isInputRender, setIsInputRender] = useState(true);
 

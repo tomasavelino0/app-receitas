@@ -15,11 +15,12 @@ function Meals() {
       {recipesFiltered.map((recipe, index) => (
         <section key={ index } data-testid={ `${index}-recipe-card` }>
           <img
+            width="16%"
             data-testid={ `${index}-card-img` }
             src={ recipe.strMealThumb }
             alt="xx"
           />
-          <h1 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h1>
+          <h2 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h2>
         </section>
       ))}
       <Footer />
