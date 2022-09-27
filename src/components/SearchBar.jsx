@@ -24,6 +24,7 @@ function SearchBar() {
   };
 
   useEffect(() => {
+    if (resultsAPI === undefined) return console.log('deu undefined');
     if (resultsAPI.meals && Object.keys(resultsAPI.meals).length === 1) {
       return history.push(`/meals/${resultsAPI.meals[0].idMeal}`);
     }
@@ -33,6 +34,10 @@ function SearchBar() {
   }, [resultsAPI, history]);
 
   useEffect(() => {
+    if (resultsAPI === undefined) return console.log('deu undefined');
+    if (resultsAPI.drinks === null || resultsAPI.meals === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
     if (resultsAPI.meals) {
       setRecipes((prevState) => ({ ...prevState,
         meals: resultsAPI.meals }));
@@ -46,10 +51,6 @@ function SearchBar() {
   const { searchByText, searchType } = formSearch;
 
   const handleClick = async () => {
-    if (resultsAPI.drinks === null || resultsAPI.meals === null) {
-      console.log('oi');
-      return global.alert('Sorry, we haven\'t found any recipes for these filters');
-    }
     const title = document.querySelector('[data-testid="page-title"]').innerHTML;
     const verify = title.includes('Meals');
     const typeFood = verify ? 'meal' : 'cocktail';
@@ -106,7 +107,7 @@ function SearchBar() {
       </label>
       <button
         data-testid="exec-search-btn"
-        onClick={ () => handleClick() }
+        onClick={ handleClick }
         type="button"
       >
         Buscar
