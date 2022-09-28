@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import saveEmail from '../services/localStorage';
+import '../styles/Login.css';
+import logo from '../images/logo_Recipes_App.png';
+import tomate from '../images/tomate_Img.png';
 
 function Login() {
   const [emailInput, setEmailInput] = useState('');
@@ -40,32 +43,44 @@ function Login() {
   };
 
   return (
-    <main>
-      <label htmlFor="emailInput">
+    <main className="login-container">
+      <div className="login-logo">
+        <img src={ logo } alt="" />
+      </div>
+      <img className="login-tomate" src={ tomate } alt="" />
+      <h2>LOGIN</h2>
+      <label htmlFor="emailInput" className="labelLogin">
         <input
           onChange={ emailInputChange }
+          className="emailLogin"
           name="emailInput"
           data-testid="email-input"
           type="email"
+          placeholder="Email"
         />
       </label>
-      <label htmlFor="passwordInput">
+      <label htmlFor="passwordInput" className="labelLogin">
         <input
           onChange={ passWordChange }
+          className="passwordLogin"
           name="passwordInput"
           data-testid="password-input"
           type="password"
+          placeholder="Password"
         />
       </label>
-      <button
-        disabled={ loginButton }
-        type="button"
-        data-testid="login-submit-btn"
-        onClick={ loginStorageHandle }
-      >
-        Enter
+      <div className="login-button-container">
+        <button
+          className="buttonLogin"
+          disabled={ loginButton }
+          type="button"
+          data-testid="login-submit-btn"
+          onClick={ loginStorageHandle }
+        >
+          Enter
 
-      </button>
+        </button>
+      </div>
     </main>
   );
 }
