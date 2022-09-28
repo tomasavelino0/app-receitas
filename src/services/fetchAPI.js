@@ -78,6 +78,17 @@ const fetchDrinksCategory = async () => {
   }
 };
 
+const fetchCategory = async (category, food) => {
+  try {
+    const URL = `https://www.the${food}db.com/api/json/v1/1/filter.php?c=${category}`;
+    const response = await fetch(URL);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   fetchApiIngredient,
   fetchAPIName,
@@ -86,4 +97,5 @@ export {
   fetchDrinks,
   fetchMealsCategorys,
   fetchDrinksCategory,
+  fetchCategory,
 };
