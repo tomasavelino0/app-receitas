@@ -15,40 +15,18 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
   const { resultApi } = useContext(RecipesContext);
   const { meals, drinks, mealsCategorys, drinkCategorys } = resultApi;
   useEffect(() => {
-    const maxCategory = 5;
-    const arrayMealsCategory = [];
-    const arrayDrinkCategorys = [];
+    const maxCategory = 4;
+    const maxRecipes = 11;
 
-    setCategoryRender(arrayMealsCategory);
-    setDrinkCategoryRender(arrayDrinkCategorys);
-    const maxRecipesRender = 12;
-    const array12Meals = [];
-    const array12Drinks = [];
+    setDrinkCategoryRender(drinkCategorys
+      .filter((_, index) => index <= maxCategory));
 
-    drinkCategorys.forEach((category, i) => {
-      if (i < maxCategory) {
-        arrayDrinkCategorys.push(category);
-      }
-    });
+    setCategoryRender(mealsCategorys
+      .filter((_, index) => index <= maxCategory));
 
-    mealsCategorys.forEach((category, i) => {
-      if (i < maxCategory) {
-        arrayMealsCategory.push(category);
-      }
-    });
-    meals.forEach((recipe, i) => {
-      if (i < maxRecipesRender) {
-        array12Meals.push(recipe);
-      }
-    });
-    drinks.forEach((drink, i) => {
-      if (i < maxRecipesRender) {
-        array12Drinks.push(drink);
-      }
-    });
     if (isCategory) {
-      setDrinksRender(array12Drinks);
-      setRecipesRender(array12Meals);
+      setRecipesRender(meals.filter((_, index) => index <= maxRecipes));
+      setDrinksRender(drinks.filter((_, index) => index <= maxRecipes));
     }
   }, [meals, drinks, mealsCategorys, drinkCategorys, isCategory]);
 
