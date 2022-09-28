@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
+import { fetchCategory } from '../services/fetchAPI';
 
 function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
   const [recipesRender, setRecipesRender] = useState([]);
   const [drinksRender, setDrinksRender] = useState([]);
   const [mealsCategoryRender, setCategoryRender] = useState([]);
   const [drinkCategoryRender, setDrinkCategoryRender] = useState([]);
+  const [isCategory, setIsCategory] = useState(true);
+  const history = useHistory();
 
   const { resultApi } = useContext(RecipesContext);
   const { meals, drinks, mealsCategorys, drinkCategorys } = resultApi;
@@ -42,37 +46,81 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
         array12Drinks.push(drink);
       }
     });
-    setDrinksRender(array12Drinks);
-    setRecipesRender(array12Meals);
-  }, [meals, drinks, mealsCategorys, drinkCategorys]);
+    if (isCategory) {
+      setDrinksRender(array12Drinks);
+      setRecipesRender(array12Meals);
+    }
+  }, [meals, drinks, mealsCategorys, drinkCategorys, isCategory]);
+
+  const handleClickMeal = async ({ target }) => {
+    const MAX = 11;
+    const category = target.innerText;
+    const results = await fetchCategory(category, 'meal');
+    setRecipesRender(results.meals.filter((_, index) => index <= MAX));
+    setIsCategory((prevState) => !prevState);
+  };
+
+  const handleClickDrinks = async ({ target }) => {
+    const MAX = 11;
+    const category = target.innerText;
+    const results = await fetchCategory(category, 'cocktail');
+    setDrinksRender(results.drinks.filter((_, index) => index <= MAX));
+    setIsCategory((prevState) => !prevState);
+  };
+
+  const handleClickAll = () => {
+    const MAX = 11;
+    if (isRenderMeals) {
+      setRecipesRender(meals.filter((_, index) => index <= MAX));
+    }
+    setDrinksRender(drinks.filter((_, index) => index <= MAX));
+  };
+
+  const changeRouterMeals = (id) => history.push(`/meals/${id}`);
+
+  const changeRouterDrinks = (id) => history.push(`/drinks/${id}`);
 
   return (
     <main>
       <div>
         {isRenderMealsCategory && (mealsCategoryRender.map((category, i) => (
           <button
-            data-testid={ `${category.strCategory}-category-filter` }
             key={ i }
+            data-testid={ `${category.strCategory}-category-filter` }
             type="button"
+            onClick={ handleClickMeal }
           >
             {category.strCategory}
             {' '}
           </button>
         )))}
+        <button
+          data-testid="All-category-filter"
+          type="button"
+          onClick={ handleClickAll }
+        >
+          All
+
+        </button>
         {!isRenderMealsCategory && (drinkCategoryRender.map((category, i) => (
           <button
             data-testid={ `${category.strCategory}-category-filter` }
             key={ i }
             type="button"
+            onClick={ handleClickDrinks }
           >
             {category.strCategory}
 
           </button>
         )))}
       </div>
-
       {isRenderMeals && (recipesRender.map((recipe, index) => (
-        <section data-testid={ `${index}-recipe-card` } key={ recipe.idMeal }>
+        <button
+          type="button"
+          onClick={ () => changeRouterMeals(recipe.idMeal) }
+          data-testid={ `${index}-recipe-card` }
+          key={ recipe.idMeal }
+        >
           <img
             width="16%"
             data-testid={ `${index}-card-img` }
@@ -80,10 +128,15 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
             alt={ recipe.strMeal }
           />
           <p data-testid={ `${index}-card-name` }>{recipe.strMeal}</p>
-        </section>
+        </button>
       )))}
       {!isRenderMeals && (drinksRender.map((drink, index) => (
-        <section data-testid={ `${index}-recipe-card` } key={ drink.idDrink }>
+        <button
+          onClick={ () => changeRouterDrinks(drink.idDrink) }
+          type="button"
+          data-testid={ `${index}-recipe-card` }
+          key={ drink.idDrink }
+        >
           <img
             width="16%"
             data-testid={ `${index}-card-img` }
@@ -91,10 +144,8 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
             alt={ drink.strDrink }
           />
           <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
-        </section>
-      ))
-
-      )}
+        </button>
+      )))}
     </main>
   );
 }
