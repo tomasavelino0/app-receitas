@@ -19,7 +19,7 @@ function Drinks() {
             width="16%"
             data-testid={ `${index}-card-img` }
             src={ recipe.strDrinkThumb }
-            alt="xx"
+            alt={ `${recipe.strDrink} imagem` }
           />
           <h2 data-testid={ `${index}-card-name` }>{recipe.strDrink}</h2>
         </section>

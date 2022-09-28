@@ -12,7 +12,7 @@ function Profile() {
     <section>
       <Header isRenderSearch={ false } isRenderProfile title="Profile" />
       <section>
-        <h3 data-testid="profile-email">{userEmail.email}</h3>
+        {userEmail && <h3 data-testid="profile-email">{userEmail.email}</h3>}
         <button
           type="button"
           data-testid="profile-done-btn"

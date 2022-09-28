@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { node } from 'prop-types';
 import RecipesContext from './RecipesContext';
-import { fetchDrinks,
+import { fetchMeals,
+  fetchDrinks,
   fetchMealsCategorys,
   fetchDrinksCategory } from '../services/fetchAPI';
 
@@ -18,14 +19,15 @@ function Provider({ children }) {
   });
 
   useEffect(() => {
-    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-      .then((response) => response.json())
-      .then(async (data) => setResultApi({
-        meals: data.meals,
+    const func = async () => {
+      setResultApi({
+        meals: await fetchMeals(),
         drinks: await fetchDrinks(),
         mealsCategorys: await fetchMealsCategorys(),
         drinkCategorys: await fetchDrinksCategory(),
-      }));
+      });
+    };
+    func();
   }, []);
 
   const state = {

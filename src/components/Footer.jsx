@@ -13,23 +13,20 @@ export default function Footer() {
   const mealButton = () => {
     history.push('/meals');
   };
+
   return (
     <footer data-testid="footer">
       <button
-        data-testid="drinks-bottom-btn"
         type="button"
         onClick={ drinksButton }
-        src={ drinkIcon }
       >
-        <img src={ drinkIcon } alt="" />
+        <img data-testid="drinks-bottom-btn" src={ drinkIcon } alt="" />
       </button>
       <button
-        data-testid="meals-bottom-btn"
         type="button"
         onClick={ mealButton }
-        src={ mealIcon }
       >
-        <img src={ mealIcon } alt="" />
+        <img data-testid="meals-bottom-btn" src={ mealIcon } alt="" />
       </button>
     </footer>
   );
