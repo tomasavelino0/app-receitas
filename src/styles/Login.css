@@ -1,0 +1,60 @@
+.login-container {
+  background-image: url('../images/Background_Login.png');
+  height: 370px;
+  width: 360px;
+}
+
+.login-logo {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.login-tomate {
+  filter: drop-shadow(7px 15px rgba(68, 73, 85, 0.25));
+}
+
+.login-container h2 {
+  color: #41197f;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.165em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.labelLogin {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.emailLogin, .passwordLogin {
+  border: 0.5px solid #41197f;
+  border-radius: 5px;
+  color: #41197f;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  height: 40px;
+  line-height: 14px;
+  margin-bottom: 10px;
+  width: 276px;
+}
+
+.login-button-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonLogin {
+  background: #fcc436;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  height: 40px;
+  margin-top: 10px;
+  width: 276px;
+}
