@@ -1,9 +1,15 @@
 #carrosel-scroll {
     display: flex;
     gap: 10px;
+    overflow: scroll;
     padding: 20px;
     width: 85vw;
-    overflow: scroll;
+   
+}
+
+.buttonStartRecipe {
+  bottom: 0;
+  position: fixed;
 }
 
 

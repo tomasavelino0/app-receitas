@@ -111,8 +111,8 @@ export default function RecipeDetails() {
             {typeFood === 'meals'
               ? returnRecomendationFetch.map((drink, index) => (
                 <div
-                  data-testid={ `${index}-recomendation-card` }
                   key={ index }
+                  data-testid={ `${index}-recommendation-card` }
                 >
                   <img
                     src={ drink.strDrinkThumb }
@@ -120,15 +120,15 @@ export default function RecipeDetails() {
                     width="140px"
                   />
                   <p
-                    data-testid={ `${drink.strGlass}-recomendation-title` }
+                    data-testid={ `${index}-recommendation-title` }
                   >
-                    {drink.strGlass}
+                    {drink.strDrink}
                   </p>
                 </div>
               ))
               : returnRecomendationFetch.map((meal, index) => (
                 <div
-                  data-testid={ `${index}-recomendation-card` }
+                  data-testid={ `${index}-recommendation-card` }
                   key={ index }
                 >
                   <img
@@ -137,13 +137,20 @@ export default function RecipeDetails() {
                     width="140px"
                   />
                   <p
-                    data-testid={ `${meal.strMeal}-recomendation-title` }
+                    data-testid={ `${index}-recommendation-title` }
                   >
                     {meal.strMeal}
                   </p>
                 </div>
               ))}
           </div>
+          <button
+            data-testid="start-recipe-btn"
+            type="button"
+            className="buttonStartRecipe"
+          >
+            Start Recipe
+          </button>
         </div>
       ) }
     </div>
