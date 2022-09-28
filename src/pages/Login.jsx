@@ -45,9 +45,9 @@ function Login() {
   return (
     <main className="login-container">
       <div className="login-logo">
-        <img src={ logo } alt="" />
+        <img src={ logo } alt="logo" />
       </div>
-      <img className="login-tomate" src={ tomate } alt="" />
+      <img className="login-tomate" src={ tomate } alt="tomate" />
       <h2>LOGIN</h2>
       <label htmlFor="emailInput" className="labelLogin">
         <input
