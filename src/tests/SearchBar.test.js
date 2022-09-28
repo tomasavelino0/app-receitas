@@ -13,11 +13,6 @@ const SEARCH_TOP_BTN = 'search-top-btn';
 const SEARCH_INPUT = 'search-input';
 
 describe('Testes do componente SearchBar', () => {
-  // beforeEach(() => {
-  //   global.fetch = jest.fn().mockResolvedValue({
-  //     json: jest.fn().mockResolvedValue(beefMeals),
-  //   });
-  // });
   it('Testa se os componentes são renderizados na tela', () => {
     const { history } = renderWithRouter(<App />);
     history.push('/meals');
