@@ -1,9 +1,10 @@
 import React from 'react';
+import RecipeDetails from '../components/RecipeDetails';
 
 function DrinksRecipes() {
   return (
     <div>
-      Drinks Recipes
+      <RecipeDetails />
     </div>
   );
 }

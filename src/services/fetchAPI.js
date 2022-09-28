@@ -89,6 +89,28 @@ const fetchCategory = async (category, food) => {
   }
 };
 
+const fetchApiFood = async (id) => {
+  try {
+    const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(URL);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const fetchApiDrink = async (id) => {
+  try {
+    const URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(URL);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   fetchApiIngredient,
   fetchAPIName,
@@ -98,4 +120,6 @@ export {
   fetchMealsCategorys,
   fetchDrinksCategory,
   fetchCategory,
+  fetchApiFood,
+  fetchApiDrink,
 };
