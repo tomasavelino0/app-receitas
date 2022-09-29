@@ -95,6 +95,7 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
       {isRenderMeals && (recipesRender.map((recipe, index) => (
         <button
           type="button"
+          className="meals-card"
           onClick={ () => changeRouterMeals(recipe.idMeal) }
           data-testid={ `${index}-recipe-card` }
           key={ recipe.idMeal }
