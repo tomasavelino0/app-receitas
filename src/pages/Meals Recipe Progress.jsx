@@ -5,7 +5,7 @@ function MealsRecipesProgress() {
   return (
     <div>
       Meals Recipes Progress
-      <RecipeInProgress isMeal={ true } />
+      <RecipeInProgress isMeal isDrink={ false } />
     </div>
   );
 }

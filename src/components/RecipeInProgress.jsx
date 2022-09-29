@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { bool } from 'prop-types';
 import { fetchApiDrink, fetchApiFood } from '../services/fetchAPI';
 
 function RecipeInProgress({ isMeal, isDrink }) {
@@ -21,18 +22,20 @@ function RecipeInProgress({ isMeal, isDrink }) {
         setMealAPI(meal.meals);
         const ingredientMealResults = Object.fromEntries(Object.entries(meal.meals[0])
           .slice(MIN_MEAL, MAX_MEAL));
-        setIngredientMeal(Object.values(ingredientMealResults)
-          .filter((item) => item !== ''));
+        return setIngredientMeal(Object.values(ingredientMealResults)
+          .filter((item) => item !== '' && item !== null));
       }
       const drink = await fetchApiDrink(id);
       const ingredientDrinkResults = Object.fromEntries(Object.entries(drink.drinks[0])
         .slice(MIN_DRINK, MAX_DRINK));
       setIngredientDrink(Object.values(ingredientDrinkResults)
-        .filter((item) => item !== null));
+        .filter((item) => item !== null && item !== '' && item.length < MAX_MEAL));
       setDrinkAPI(drink.drinks);
     };
     test();
   }, [id, isMeal]);
+
+  console.log(mealAPI, drinkAPI);
 
   return (
     <section>
@@ -85,5 +88,10 @@ function RecipeInProgress({ isMeal, isDrink }) {
     </section>
   );
 }
+
+RecipeInProgress.propTypes = {
+  isMeal: bool.isRequired,
+  isDrink: bool.isRequired,
+};
 
 export default RecipeInProgress;
