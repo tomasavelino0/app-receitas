@@ -107,7 +107,7 @@ export default function RecipeDetails() {
             height="315"
           />}
           <h3>Recomendations</h3>
-          <div id="carrosel-scroll">
+          <div className="carrosel-scroll">
             {typeFood === 'meals'
               ? returnRecomendationFetch.map((drink, index) => (
                 <div
