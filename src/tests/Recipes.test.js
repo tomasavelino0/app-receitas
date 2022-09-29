@@ -1,46 +1,50 @@
-// import React from 'react';
-// import userEvent from '@testing-library/user-event';
-// import { screen, waitFor } from '@testing-library/react';
-// import App from '../App';
-// import renderWithRouter from '../services/renderWithRouter';
-// import fetchMock from '../../cypress/mocks/fetch';
+import React from 'react';
+import userEvent from '@testing-library/user-event';
+import { screen, waitFor } from '@testing-library/react';
+import App from '../App';
+import renderWithRouter from '../services/renderWithRouter';
+import fetchMock from '../../cypress/mocks/fetch';
 
-// const BEEF_CATEGORY_FILTER = 'Beef-category-filter';
-// const BREAKFAST_CATEGORY_FILTER = 'Breakfast-category-filter';
-// const CHICKEN_CATEGORY_FILTER = 'Chicken-category-filter';
-// const DESSERT_CATEGORY_FILTER = 'Dessert-category-filter';
-// const GOAT_CATEGORY_FILTER = 'Goat-category-filter';
+const BEEF_CATEGORY_FILTER = 'Beef-category-filter';
+const BREAKFAST_CATEGORY_FILTER = 'Breakfast-category-filter';
+const CHICKEN_CATEGORY_FILTER = 'Chicken-category-filter';
+const DESSERT_CATEGORY_FILTER = 'Dessert-category-filter';
+const GOAT_CATEGORY_FILTER = 'Goat-category-filter';
 
-// const ORDINARY_DRINK_CATEGORY_FILTER = 'Ordinary-drink-category-filter';
-// const COCKTAIL_CATEGORY_FILTER = 'Cocktail-category-filter';
-// const SHAKE_CATEGORY_FILTER = 'Shake-category-filter';
-// const COCOA_CATEGORY_FILTER = 'Cocoa-category-filter';
-// const OTHER_UNKNOWN = 'Other-category-filter';
-// const ALL = 'All';
+const ORDINARY_DRINK_CATEGORY_FILTER = 'Ordinary-drink-category-filter';
+const COCKTAIL_CATEGORY_FILTER = 'Cocktail-category-filter';
+const SHAKE_CATEGORY_FILTER = 'Shake-category-filter';
+const COCOA_CATEGORY_FILTER = 'Cocoa-category-filter';
+const OTHER_UNKNOWN = 'Other-category-filter';
+const ALL = 'All';
 
-// describe('Testa o componente Recipes', () => {
-//   beforeEach(() => {
-//     global.fetch = fetchMock('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-//     jest.spyOn(global.json, 'fetch');
-//   });
-//   it('Testa se os botões estão presentes na página de meals', async () => {
-//     const { history } = renderWithRouter(<App />);
-//     history.push('/meals');
-//     await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
-//     const btnBeef = screen.getByTestId(BEEF_CATEGORY_FILTER);
-//     // const btnBreakfast = screen.getByTestId(BREAKFAST_CATEGORY_FILTER);
-//     // const btnChicken = screen.getByTestId(CHICKEN_CATEGORY_FILTER);
-//     // const btnDessert = screen.getByTestId(DESSERT_CATEGORY_FILTER);
-//     // const btnGoat = screen.getByTestId(GOAT_CATEGORY_FILTER);
-//     // const btnAll = screen.getByText(ALL);
+describe('Testa o componente Recipes', () => {
+  beforeEach(() => {
+    global.fetch = fetchMock;
+    jest.spyOn(global, 'fetch');
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('Testa se os botões estão presentes na página de meals', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/meals');
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    const btnBeef = screen.getByTestId(BEEF_CATEGORY_FILTER);
+    const btnBreakfast = screen.getByTestId(BREAKFAST_CATEGORY_FILTER);
+    const btnChicken = screen.getByTestId(CHICKEN_CATEGORY_FILTER);
+    const btnDessert = screen.getByTestId(DESSERT_CATEGORY_FILTER);
+    const btnGoat = screen.getByTestId(GOAT_CATEGORY_FILTER);
+    const btnAll = screen.getByText(ALL);
 
-//     expect(btnBeef).toBeInTheDocument();
-//     // expect(btnBreakfast).toBeInTheDocument();
-//     // expect(btnChicken).toBeInTheDocument();
-//     // expect(btnDessert).toBeInTheDocument();
-//     // expect(btnGoat).toBeInTheDocument();
-//     // expect(btnAll).toBeInTheDocument();
-// //   });
+    expect(btnBeef).toBeInTheDocument();
+    expect(btnBreakfast).toBeInTheDocument();
+    expect(btnChicken).toBeInTheDocument();
+    expect(btnDessert).toBeInTheDocument();
+    expect(btnGoat).toBeInTheDocument();
+    expect(btnAll).toBeInTheDocument();
+  });
+});
 // //   it('Testa se os botões estão presentes na página de drinks', () => {
 // //     const { history } = renderWithRouter(<App />);
 // //     history.push('/drinks');
