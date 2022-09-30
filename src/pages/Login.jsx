@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import saveEmail from '../services/localStorage';
+import { saveEmail } from '../services/localStorage';
 import '../styles/Login.css';
 import logo from '../images/logo_Recipes_App.png';
 import tomate from '../images/tomate_Img.png';

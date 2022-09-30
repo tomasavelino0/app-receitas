@@ -1,15 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { fetchApiFood, fetchApiDrink,
   fetchMeals, fetchDrinks } from '../services/fetchAPI';
+import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import { saveFavoriteRecipes } from '../services/localStorage';
+
+const copy = require('clipboard-copy');
 
 export default function RecipeDetails() {
   const [returnFetch, setReturnFetch] = useState({});
   const [returnRecomendationFetch, setRecomendationFetch] = useState({});
   const [loading, setLoading] = useState(true);
+  const [sharetext, setSharetext] = useState('');
+  const [favorite, setFavorite] = useState(false);
   const typeFood = window.location.pathname.split('/')[1];
   const MN = -9;
   const MN2 = -21;
   const magicNumber = 6;
+  const url = window.location.href;
+
+  const shareClick = () => {
+    copy(url);
+    setSharetext('Link copied!');
+  };
+
+  const handleFavorite = () => {
+    let favorites;
+    let newFetch;
+    //  const favoriteLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (typeFood === 'meals') {
+      newFetch = returnFetch.meals;
+      favorites = {
+        id: newFetch[0].idMeal,
+        type: 'meal',
+        nationality: newFetch[0].strArea,
+        category: newFetch[0].strCategory,
+        alcoholicOrNot: '',
+        name: newFetch[0].strMeal,
+        image: newFetch[0].strMealThumb,
+      };
+      setFavorite(true);
+    } else {
+      newFetch = returnFetch.drinks;
+      favorites = {
+        id: newFetch[0].idDrink,
+        type: 'drink',
+        nationality: '',
+        category: newFetch[0].strCategory,
+        alcoholicOrNot: newFetch[0].strAlcoholic,
+        name: newFetch[0].strDrink,
+        image: newFetch[0].strDrinkThumb,
+      };
+      setFavorite(true);
+    }
+    saveFavoriteRecipes(favorites);
+  };
 
   useEffect(() => {
     const detailsFetch = async () => {
@@ -37,7 +83,6 @@ export default function RecipeDetails() {
     <div>
       { !loading && (
         <div>
-          {console.log(returnRecomendationFetch)}
           <h1>Recipe Details</h1>
           <h2 data-testid="recipe-title">
             {typeFood === 'meals' ? returnFetch.meals[0].strMeal
@@ -144,13 +189,37 @@ export default function RecipeDetails() {
                 </div>
               ))}
           </div>
+          <div className="container-btn-footer">
+            <button
+              data-testid="start-recipe-btn"
+              type="button"
+              className="buttonStartRecipe"
+              onClick={ () => {
+                window.location.href = `/${typeFood}/${window.location.pathname
+                  .split('/')[2]}/in-progress`;
+              } }
+            >
+              Start Recipe
+            </button>
+          </div>
           <button
-            data-testid="start-recipe-btn"
             type="button"
-            className="buttonStartRecipe"
+            data-testid="favorite-btn"
+            onClick={ () => { handleFavorite(); } }
           >
-            Start Recipe
+            <img
+              src={ favorite ? blackHeartIcon : whiteHeartIcon }
+              alt="ShareIcon"
+            />
           </button>
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ shareClick }
+          >
+            <img src={ shareIcon } alt="ShareIcon" />
+          </button>
+          <p>{sharetext}</p>
         </div>
       ) }
     </div>
