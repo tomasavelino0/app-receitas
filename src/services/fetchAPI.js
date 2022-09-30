@@ -61,7 +61,6 @@ const fetchMealsCategorys = async () => {
     const url = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data.meals;
   } catch (error) {
     console.log(error);
@@ -73,7 +72,6 @@ const fetchDrinksCategory = async () => {
     const url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data.drinks;
   } catch (error) {
     console.log(error);
