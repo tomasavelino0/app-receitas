@@ -236,7 +236,7 @@ export default function RecipeDetails() {
               alt="ShareIcon"
             />
           </button>
-          {copy && <p>Link copiado!</p>}
+          {sharetext && <p>Link copiado!</p>}
         </div>
       ) }
     </div>
