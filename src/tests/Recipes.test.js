@@ -4,7 +4,6 @@ import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
 import renderWithRouter from '../services/renderWithRouter';
 import fetchMock from '../../cypress/mocks/fetch';
-import beefMeals from '../../cypress/mocks/beefMeals';
 
 const BEEF_CATEGORY_FILTER = 'Beef-category-filter';
 const BREAKFAST_CATEGORY_FILTER = 'Breakfast-category-filter';
