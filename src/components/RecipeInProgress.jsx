@@ -35,12 +35,36 @@ function RecipeInProgress({ isMeal, isDrink }) {
     test();
   }, [id, isMeal]);
 
-  console.log(mealAPI, drinkAPI);
-
   return (
     <section>
-      <img data-testid="recipe-photo" src="https://www.petlove.com.br/images/breeds/193103/profile/original/pastor_alemao-p.jpg?1532539270" alt="foto de um pastor alemão" />
-      <h1 data-testid="recipe-title">Título</h1>
+      {isMeal
+        && (mealAPI.map((meal, index) => (
+          <section key={ index }>
+            <img
+              width="16%"
+              data-testid="recipe-photo"
+              src={ meal.strMealThumb }
+              alt={ `foto de ${meal.strMeal}` }
+            />
+            <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+            <p data-testid="recipe-category">{meal.strCategory}</p>
+            <p data-testid="instructions">{meal.strInstructions}</p>
+          </section>
+        )))}
+      {isDrink
+        && (drinkAPI.map((drink, index) => (
+          <section key={ index }>
+            <img
+              width="16%"
+              data-testid="recipe-photo"
+              src={ drink.strDrinkThumb }
+              alt={ `foto de ${drink.strDrink}` }
+            />
+            <h1 data-testid="recipe-title">{drink.strDrink}</h1>
+            <p data-testid="recipe-category">{drink.strCategory}</p>
+            <p data-testid="instructions">{drink.strInstructions}</p>
+          </section>
+        )))}
       <button
         type="button"
         data-testid="share-btn"
@@ -83,8 +107,6 @@ function RecipeInProgress({ isMeal, isDrink }) {
       >
         Receita Finalizada
       </button>
-      <p data-testid="recipe-category">Categoria</p>
-      <p data-testid="instructions">Instruções</p>
     </section>
   );
 }
