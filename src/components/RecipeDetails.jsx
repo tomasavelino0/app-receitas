@@ -5,7 +5,7 @@ import { fetchApiFood, fetchApiDrink,
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import { saveFavoriteRecipes } from '../services/localStorage';
+import { saveFavoriteRecipes, removeFavorite } from '../services/localStorage';
 
 const copy = require('clipboard-copy');
 
@@ -14,36 +14,37 @@ export default function RecipeDetails() {
   const [returnRecomendationFetch, setRecomendationFetch] = useState({});
   const [loading, setLoading] = useState(true);
   const [sharetext, setSharetext] = useState('');
-  const [favorite, setFavorite] = useState(false);
-  const location = useLocation();
+  const [favorite, setFavorite] = useState(false); const location = useLocation();
   const typeFood = location.pathname.split('/')[1];
   const { id } = useParams();
-  const MN = -9;
-  const MN2 = -21;
-  const magicNumber = 6;
-  const url = location.href;
+  const MN = -9; const MN2 = -21; const magicNumber = 6;
 
   const shareClick = () => {
-    copy(url);
+    copy(`http://localhost:3000/${typeFood}/${id}`);
     setSharetext('Link copied!');
   };
 
   const handleFavorite = () => {
     let favorites;
     let newFetch;
-    //  const favoriteLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (typeFood === 'meals') {
       newFetch = returnFetch.meals;
-      favorites = {
-        id: newFetch[0].idMeal,
-        type: 'meal',
-        nationality: newFetch[0].strArea,
-        category: newFetch[0].strCategory,
-        alcoholicOrNot: '',
-        name: newFetch[0].strMeal,
-        image: newFetch[0].strMealThumb,
-      };
-      setFavorite(true);
+      if (favorite === true) {
+        removeFavorite(id); setFavorite(false);
+      } else {
+        favorites = {
+          id: newFetch[0].idMeal,
+          type: 'meal',
+          nationality: newFetch[0].strArea,
+          category: newFetch[0].strCategory,
+          alcoholicOrNot: '',
+          name: newFetch[0].strMeal,
+          image: newFetch[0].strMealThumb,
+        };
+        setFavorite(true); saveFavoriteRecipes(favorites);
+      }
+    } else if (favorite === true) {
+      removeFavorite(id); setFavorite(false);
     } else {
       newFetch = returnFetch.drinks;
       favorites = {
@@ -55,21 +56,18 @@ export default function RecipeDetails() {
         name: newFetch[0].strDrink,
         image: newFetch[0].strDrinkThumb,
       };
-      setFavorite(true);
+      saveFavoriteRecipes(favorites); setFavorite(true);
     }
-    saveFavoriteRecipes(favorites);
   };
 
   useEffect(() => {
     try {
       const detailsFetch = async () => {
         const returnFetchApi = typeFood === 'meals'
-          ? await fetchApiFood(id)
-          : await fetchApiDrink(id);
+          ? await fetchApiFood(id) : await fetchApiDrink(id);
         setReturnFetch(returnFetchApi);
         const returnRecomendationFetchApi = typeFood === 'meals'
-          ? await fetchDrinks()
-          : await fetchMeals();
+          ? await fetchDrinks() : await fetchMeals();
         setRecomendationFetch(returnRecomendationFetchApi.slice(0, magicNumber));
       };
       detailsFetch();
@@ -84,6 +82,16 @@ export default function RecipeDetails() {
       setLoading(false);
     }
   }, [returnFetch, returnRecomendationFetch]);
+
+  useEffect(() => {
+    const favoriteLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteLocalStorage) {
+      const favoriteFilter = favoriteLocalStorage.filter((item) => item.id === id);
+      if (favoriteFilter.length > 0) {
+        setFavorite(true);
+      }
+    }
+  }, [id]);
 
   return (
     <div>
@@ -223,9 +231,12 @@ export default function RecipeDetails() {
             data-testid="share-btn"
             onClick={ shareClick }
           >
-            <img src={ shareIcon } alt="ShareIcon" />
+            <img
+              src={ shareIcon }
+              alt="ShareIcon"
+            />
           </button>
-          <p>{sharetext}</p>
+          {copy && <p>Link copiado!</p>}
         </div>
       ) }
     </div>

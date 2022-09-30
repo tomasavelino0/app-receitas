@@ -13,6 +13,12 @@ const saveFavoriteRecipes = (favorite) => {
   }
 };
 
+const removeFavorite = (id) => {
+  const savedFavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const newFavoriteRecipes = savedFavoriteRecipes.filter((recipe) => recipe.id !== id);
+  localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+};
+
 // const readEmail = () => {
 //   if (!JSON.parse(localStorage.getItem(EMAIL))) {
 //     localStorage.setItem(EMAIL, JSON.stringify());
@@ -24,4 +30,5 @@ const saveFavoriteRecipes = (favorite) => {
 export {
   saveEmail,
   saveFavoriteRecipes,
+  removeFavorite,
 };
