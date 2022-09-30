@@ -11,6 +11,11 @@
   position: fixed;
 }
 
+.container-btn-footer {
+  align-items: center;
+  display: flex;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
