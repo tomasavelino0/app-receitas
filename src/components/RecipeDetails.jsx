@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { fetchApiFood, fetchApiDrink,
   fetchMeals, fetchDrinks } from '../services/fetchAPI';
 
@@ -6,25 +7,30 @@ export default function RecipeDetails() {
   const [returnFetch, setReturnFetch] = useState({});
   const [returnRecomendationFetch, setRecomendationFetch] = useState({});
   const [loading, setLoading] = useState(true);
-  const typeFood = window.location.pathname.split('/')[1];
+  const location = useLocation();
+  const typeFood = location.pathname.split('/')[1];
+  const { id } = useParams();
   const MN = -9;
   const MN2 = -21;
   const magicNumber = 6;
 
   useEffect(() => {
-    const detailsFetch = async () => {
-      const id = window.location.pathname.split('/')[2];
-      const returnFetchApi = typeFood === 'meals'
-        ? await fetchApiFood(id)
-        : await fetchApiDrink(id);
-      setReturnFetch(returnFetchApi);
-      const returnRecomendationFetchApi = typeFood === 'meals'
-        ? await fetchDrinks()
-        : await fetchMeals();
-      setRecomendationFetch(returnRecomendationFetchApi.slice(0, magicNumber));
-    };
-    detailsFetch();
-  }, [typeFood]);
+    try {
+      const detailsFetch = async () => {
+        const returnFetchApi = typeFood === 'meals'
+          ? await fetchApiFood(id)
+          : await fetchApiDrink(id);
+        setReturnFetch(returnFetchApi);
+        const returnRecomendationFetchApi = typeFood === 'meals'
+          ? await fetchDrinks()
+          : await fetchMeals();
+        setRecomendationFetch(returnRecomendationFetchApi.slice(0, magicNumber));
+      };
+      detailsFetch();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [typeFood, id]);
 
   useEffect(() => {
     if (Object.keys(returnFetch).length > 0
