@@ -15,11 +15,13 @@ export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
   const [sharetext, setSharetext] = useState('');
   const [favorite, setFavorite] = useState(false);
-  const typeFood = window.location.pathname.split('/')[1];
+  const location = useLocation();
+  const typeFood = location.pathname.split('/')[1];
+  const { id } = useParams();
   const MN = -9;
   const MN2 = -21;
   const magicNumber = 6;
-  const url = window.location.href;
+  const url = location.href;
 
   const shareClick = () => {
     copy(url);
