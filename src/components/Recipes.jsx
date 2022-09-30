@@ -33,7 +33,9 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
   const handleClickMeal = async ({ target }) => {
     const MAX = 11;
     const category = target.innerText;
+    console.log(category);
     const results = await fetchCategory(category, 'meal');
+    console.log(results);
     setRecipesRender(results.meals.filter((_, index) => index <= MAX));
     setIsCategory((prevState) => !prevState);
   };
