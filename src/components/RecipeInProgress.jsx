@@ -47,15 +47,11 @@ function RecipeInProgress({ isMeal, isDrink }) {
 
   const isIngredientChecked = (ingredient) => isChecked && isChecked[ingredient];
 
-  console.log(ingredientMeal);
-
   return (
     <section>
       {isMeal
         && (mealAPI.map((meal, index) => (
           <section key={ index }>
-            {/* {console.log(Object.keys(meal)
-              .filter((item) => item.includes('strIngredient')))} */}
             <img
               width="16%"
               data-testid="recipe-photo"
