@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { bool } from 'prop-types';
 import { fetchApiDrink, fetchApiFood } from '../services/fetchAPI';
+import '../styles/RecipeInProgress.css';
 
 function RecipeInProgress({ isMeal, isDrink }) {
   const { id } = useParams();
@@ -9,6 +10,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
   const [drinkAPI, setDrinkAPI] = useState([]);
   const [ingredientMeal, setIngredientMeal] = useState([]);
   const [ingredientDrink, setIngredientDrink] = useState([]);
+  const [isChecked, setIsChecked] = useState({});
 
   const MIN_MEAL = 9;
   const MAX_MEAL = 28;
@@ -35,11 +37,28 @@ function RecipeInProgress({ isMeal, isDrink }) {
     test();
   }, [id, isMeal]);
 
+  const handleChange = ({ target }) => {
+    const { checked, name } = target;
+    setIsChecked((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
+
+  const isIngredientChecked = (ingredient) => {
+    if (isChecked && isChecked[ingredient]) return true;
+    return false;
+  };
+
+  console.log(ingredientMeal);
+
   return (
     <section>
       {isMeal
         && (mealAPI.map((meal, index) => (
           <section key={ index }>
+            {/* {console.log(Object.keys(meal)
+              .filter((item) => item.includes('strIngredient')))} */}
             <img
               width="16%"
               data-testid="recipe-photo"
@@ -81,23 +100,37 @@ function RecipeInProgress({ isMeal, isDrink }) {
         {isMeal
           && (ingredientMeal.map((meal, index) => (
             <label
+              className={ isIngredientChecked(`ingrediente${index}`)
+                ? 'RIP-checkbox' : 'empty' }
               key={ index }
               data-testid={ `${index}-ingredient-step` }
               htmlFor={ `ingrediente${index}` }
             >
               {meal}
-              <input type="checkbox" name={ `ingrediente${index}` } />
+              <input
+                checked={ isIngredientChecked(`ingrediente${index}`) }
+                type="checkbox"
+                name={ `ingrediente${index}` }
+                onChange={ handleChange }
+              />
             </label>
           )))}
         {isDrink
           && (ingredientDrink.map((drink, index) => (
             <label
               key={ index }
+              className={ isIngredientChecked(`ingrediente${index}`)
+                ? 'RIP-checkbox' : 'empty' }
               data-testid={ `${index}-ingredient-step` }
               htmlFor={ `ingrediente${index}` }
             >
               {drink}
-              <input type="checkbox" name={ `ingrediente${index}` } />
+              <input
+                checked={ isIngredientChecked(`ingrediente${index}`) }
+                type="checkbox"
+                name={ `ingrediente${index}` }
+                onChange={ handleChange }
+              />
             </label>
           )))}
       </section>

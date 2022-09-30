@@ -1,0 +1,10 @@
+.RIP-checkbox {
+    text-decoration: line-through solid rgb(0, 0, 0);
+    color: red;
+}
+
+.empty {
+    text-decoration: none solid black;
+}
+
+/* line-through */
