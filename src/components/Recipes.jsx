@@ -15,47 +15,27 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
   const { resultApi } = useContext(RecipesContext);
   const { meals, drinks, mealsCategorys, drinkCategorys } = resultApi;
   useEffect(() => {
-    const maxCategory = 5;
-    const arrayMealsCategory = [];
-    const arrayDrinkCategorys = [];
+    const maxCategory = 4;
+    const maxRecipes = 11;
 
-    setCategoryRender(arrayMealsCategory);
-    setDrinkCategoryRender(arrayDrinkCategorys);
-    const maxRecipesRender = 12;
-    const array12Meals = [];
-    const array12Drinks = [];
+    setDrinkCategoryRender(drinkCategorys
+      .filter((_, index) => index <= maxCategory));
 
-    drinkCategorys.forEach((category, i) => {
-      if (i < maxCategory) {
-        arrayDrinkCategorys.push(category);
-      }
-    });
+    setCategoryRender(mealsCategorys
+      .filter((_, index) => index <= maxCategory));
 
-    mealsCategorys.forEach((category, i) => {
-      if (i < maxCategory) {
-        arrayMealsCategory.push(category);
-      }
-    });
-    meals.forEach((recipe, i) => {
-      if (i < maxRecipesRender) {
-        array12Meals.push(recipe);
-      }
-    });
-    drinks.forEach((drink, i) => {
-      if (i < maxRecipesRender) {
-        array12Drinks.push(drink);
-      }
-    });
     if (isCategory) {
-      setDrinksRender(array12Drinks);
-      setRecipesRender(array12Meals);
+      setRecipesRender(meals.filter((_, index) => index <= maxRecipes));
+      setDrinksRender(drinks.filter((_, index) => index <= maxRecipes));
     }
   }, [meals, drinks, mealsCategorys, drinkCategorys, isCategory]);
 
   const handleClickMeal = async ({ target }) => {
     const MAX = 11;
     const category = target.innerText;
+    console.log(category);
     const results = await fetchCategory(category, 'meal');
+    console.log(results);
     setRecipesRender(results.meals.filter((_, index) => index <= MAX));
     setIsCategory((prevState) => !prevState);
   };
@@ -117,6 +97,7 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
       {isRenderMeals && (recipesRender.map((recipe, index) => (
         <button
           type="button"
+          className="meals-card"
           onClick={ () => changeRouterMeals(recipe.idMeal) }
           data-testid={ `${index}-recipe-card` }
           key={ recipe.idMeal }
@@ -133,6 +114,7 @@ function Recipes({ isRenderMeals = true, isRenderMealsCategory = true }) {
       {!isRenderMeals && (drinksRender.map((drink, index) => (
         <button
           onClick={ () => changeRouterDrinks(drink.idDrink) }
+          className="card-drink"
           type="button"
           data-testid={ `${index}-recipe-card` }
           key={ drink.idDrink }
