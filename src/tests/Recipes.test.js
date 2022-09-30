@@ -105,15 +105,4 @@ describe('Testa o componente Recipes', () => {
     userEvent.click(drinkItem);
     expect(history.location.pathname).toBe('/drinks/15997');
   });
-  // it('Testa o botão de categoria', async () => {
-  //   const { history } = renderWithRouter(<App />);
-  //   history.push('/meals');
-  //   await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
-  //   const buttonBeef = screen.getByTestId(BEEF_CATEGORY_FILTER);
-  //   expect(buttonBeef).toBeInTheDocument();
-  //   userEvent.click(buttonBeef);
-  //   await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(5));
-  //   const test = screen.findAllByText('Beef and Mustard Pie');
-  //   expect(test).toBeInTheDocument();
-  // });
 });
