@@ -45,10 +45,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
     }));
   };
 
-  const isIngredientChecked = (ingredient) => {
-    if (isChecked && isChecked[ingredient]) return true;
-    return false;
-  };
+  const isIngredientChecked = (ingredient) => isChecked && isChecked[ingredient];
 
   console.log(ingredientMeal);
 
