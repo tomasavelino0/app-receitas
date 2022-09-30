@@ -29,7 +29,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
       const ingredientDrinkResults = Object.fromEntries(Object.entries(drink.drinks[0])
         .slice(MIN_DRINK, MAX_DRINK));
       setIngredientDrink(Object.values(ingredientDrinkResults)
-        .filter((item) => item !== null && item !== '' && item.length < MAX_MEAL));
+        .filter((item) => item !== null && item !== '' && item.length < MAX_DRINK));
       setDrinkAPI(drink.drinks);
     };
     test();
