@@ -11,11 +11,11 @@ const CHICKEN_CATEGORY_FILTER = 'Chicken-category-filter';
 const DESSERT_CATEGORY_FILTER = 'Dessert-category-filter';
 const GOAT_CATEGORY_FILTER = 'Goat-category-filter';
 
-const ORDINARY_DRINK_CATEGORY_FILTER = 'Ordinary-drink-category-filter';
+const ORDINARY_DRINK_CATEGORY_FILTER = 'Ordinary Drink-category-filter';
 const COCKTAIL_CATEGORY_FILTER = 'Cocktail-category-filter';
 const SHAKE_CATEGORY_FILTER = 'Shake-category-filter';
 const COCOA_CATEGORY_FILTER = 'Cocoa-category-filter';
-const OTHER_UNKNOWN = 'Other-category-filter';
+const OTHER_UNKNOWN = 'Other/Unknown-category-filter';
 const ALL = 'All';
 
 describe('Testa o componente Recipes', () => {
@@ -23,9 +23,11 @@ describe('Testa o componente Recipes', () => {
     global.fetch = fetchMock;
     jest.spyOn(global, 'fetch');
   });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   it('Testa se os botões estão presentes na página de meals', async () => {
     const { history } = renderWithRouter(<App />);
     history.push('/meals');
@@ -44,64 +46,62 @@ describe('Testa o componente Recipes', () => {
     expect(btnGoat).toBeInTheDocument();
     expect(btnAll).toBeInTheDocument();
   });
+  it('Testa se os botões estão presentes na página de drinks', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    const btnOrdinary = screen.getByTestId(ORDINARY_DRINK_CATEGORY_FILTER);
+    const btnCocktail = screen.getByTestId(COCKTAIL_CATEGORY_FILTER);
+    const btnShake = screen.getByTestId(SHAKE_CATEGORY_FILTER);
+    const btnCocoa = screen.getByTestId(COCOA_CATEGORY_FILTER);
+    const btnAll = screen.getByText(ALL);
+    const btnOther = screen.getByTestId(OTHER_UNKNOWN);
+
+    expect(btnOrdinary).toBeInTheDocument();
+    expect(btnCocktail).toBeInTheDocument();
+    expect(btnShake).toBeInTheDocument();
+    expect(btnCocoa).toBeInTheDocument();
+    expect(btnAll).toBeInTheDocument();
+    expect(btnOther).toBeInTheDocument();
+  });
+  it('Testa se renderiza 12 receitas de comida ao iniciar a pagina', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/meals');
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    const cardsFood = document.getElementsByClassName('meals-card');
+    expect(cardsFood).toHaveLength(12);
+  });
+  it('test se renderiza 12 drinks ao iniciar a pagina', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    const cardsDrink = document.getElementsByClassName('card-drink');
+    expect(cardsDrink).toHaveLength(12);
+  });
+  it('testa o botao all se renderiza 12 receitas apos ser clicado', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/meals');
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    const btnAll = screen.getByTestId('All-category-filter');
+    expect(btnAll).toBeInTheDocument();
+    userEvent.click(btnAll);
+    const cardsRenderAll = document.getElementsByClassName('meals-card');
+    expect(cardsRenderAll).toHaveLength(12);
+  });
+  it('testa se ao clicar em um Meal a pagina e redirecionada para o Id da Meal', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/meals');
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    const btnMealRedirect = screen.getByTestId('0-recipe-card');
+    userEvent.click(btnMealRedirect);
+    expect(history.location.pathname).toBe('/meals/52977');
+  });
+  it('Testa se ao clicar no botão Breakfast, 12 receitas com a palavra Beef são renderizadas', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    const drinkItem = screen.getByTestId('0-recipe-card');
+    userEvent.click(drinkItem);
+    expect(history.location.pathname).toBe('/drinks/15997');
+  });
 });
-// //   it('Testa se os botões estão presentes na página de drinks', () => {
-// //     const { history } = renderWithRouter(<App />);
-// //     history.push('/drinks');
-// //     const btnOrdinary = screen.getByTestId(ORDINARY_DRINK_CATEGORY_FILTER);
-// //     const btnCocktail = screen.getByTestId(COCKTAIL_CATEGORY_FILTER);
-// //     const btnShake = screen.getByTestId(SHAKE_CATEGORY_FILTER);
-// //     const btnCocoa = screen.getByTestId(COCOA_CATEGORY_FILTER);
-// //     const btnAll = screen.getByText(ALL);
-// //     const btnOther = screen.getByTestId(OTHER_UNKNOWN);
-
-// //     expect(btnOrdinary).toBeInTheDocument();
-// //     expect(btnCocktail).toBeInTheDocument();
-// //     expect(btnShake).toBeInTheDocument();
-// //     expect(btnCocoa).toBeInTheDocument();
-// //     expect(btnAll).toBeInTheDocument();
-// //     expect(btnOther).toBeInTheDocument();
-// //   });
-// //   it('Testa se ao clicar no botão Beef, 12 receitas com a palavra Beef são renderizadas', () => {
-// //     const { history } = renderWithRouter(<App />);
-// //     history.push('/meals');
-// //     const btnBeef = screen.getByTestId(BEEF_CATEGORY_FILTER);
-
-// //     userEvent.click(btnBeef);
-// //   });
-// //   it('Testa se ao clicar no botão Breakfast, 12 receitas com a palavra Beef são renderizadas', () => {
-// //     const { history } = renderWithRouter(<App />);
-// //     history.push('/meals');
-// //     const btnBreakfast = screen.getByTestId(BREAKFAST_CATEGORY_FILTER);
-
-// //     userEvent.click(btnBreakfast);
-// //   });
-// //   it('Testa se ao clicar no botão Chicken, 12 receitas com a palavra Beef são renderizadas', () => {
-// //     const { history } = renderWithRouter(<App />);
-// //     history.push('/meals');
-// //     const btnChicken = screen.getByTestId(CHICKEN_CATEGORY_FILTER);
-
-// //     userEvent.click(btnChicken);
-// //   });
-// //   it('Testa se ao clicar no botão Dessert, 12 receitas com a palavra Beef são renderizadas', () => {
-// //     const { history } = renderWithRouter(<App />);
-// //     history.push('/meals');
-// //     const btnDessert = screen.getByTestId(DESSERT_CATEGORY_FILTER);
-
-// //     userEvent.click(btnDessert);
-// //   });
-// //   it('Testa se ao clicar no botão Goat, 12 receitas com a palavra Beef são renderizadas', () => {
-// //     const { history } = renderWithRouter(<App />);
-// //     history.push('/meals');
-// //     const btnGoat = screen.getByTestId(GOAT_CATEGORY_FILTER);
-
-// //     userEvent.click(btnGoat);
-// //   });
-// //   it('Testa se ao clicar no botão All, 12 receitas com a palavra Beef são renderizadas', () => {
-// //     const { history } = renderWithRouter(<App />);
-// //     history.push('/meals');
-// //     const btnAll = screen.getByText(ALL);
-
-// //     userEvent.click(btnAll);
-//   });
-// });
