@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { bool } from 'prop-types';
 import { fetchApiDrink, fetchApiFood } from '../services/fetchAPI';
 import '../styles/RecipeInProgress.css';
 
+const copy = require('clipboard-copy');
+
 function RecipeInProgress({ isMeal, isDrink }) {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const [mealAPI, setMealAPI] = useState([]);
   const [drinkAPI, setDrinkAPI] = useState([]);
   const [ingredientMeal, setIngredientMeal] = useState([]);
@@ -90,6 +93,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
       <button
         type="button"
         data-testid="share-btn"
+        onClick={ (e) => { console.log(e); copy(`http://localhost:3000${pathname}`)} }
       >
         Compartilhar
       </button>
