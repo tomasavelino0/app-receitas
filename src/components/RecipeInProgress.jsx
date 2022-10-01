@@ -37,6 +37,16 @@ function RecipeInProgress({ isMeal, isDrink }) {
     test();
   }, [id, isMeal]);
 
+  useEffect(() => {
+    if (localStorage.getItem('inProgressRecipes')) {
+      const i = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      setIsChecked(i);
+    }
+  }, []);
+
+  const teste = () => localStorage
+    .setItem('inProgressRecipes', JSON.stringify(isChecked));
+
   const handleChange = ({ target }) => {
     const { checked, name } = target;
     setIsChecked((prevState) => ({
@@ -105,6 +115,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
                 type="checkbox"
                 name={ `ingrediente${index}` }
                 onChange={ handleChange }
+                onClick={ teste() }
               />
             </label>
           )))}
@@ -123,6 +134,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
                 type="checkbox"
                 name={ `ingrediente${index}` }
                 onChange={ handleChange }
+                onClick={ teste() }
               />
             </label>
           )))}
