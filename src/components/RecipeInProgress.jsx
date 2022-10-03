@@ -3,6 +3,8 @@ import { useParams, useLocation } from 'react-router-dom';
 import { bool } from 'prop-types';
 import { fetchApiDrink, fetchApiFood } from '../services/fetchAPI';
 import '../styles/RecipeInProgress.css';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import { saveFavoriteRecipes, removeFavorite } from '../services/localStorage';
 
 const copy = require('clipboard-copy');
@@ -48,6 +50,8 @@ function RecipeInProgress({ isMeal, isDrink }) {
       setIsChecked(i);
     }
   }, []);
+
+  localStorage.setItem('isFavorite', JSON.stringify(isFavorite));
 
   const setIngredientInLocalStorage = () => localStorage
     .setItem('inProgressRecipes', JSON.stringify(isChecked));
@@ -101,9 +105,11 @@ function RecipeInProgress({ isMeal, isDrink }) {
       setFavorite((prevState) => !prevState);
     }
     if (isFavorite) {
-      removeFavorite(drinkAPI[0].idDrink);
+      return removeFavorite(drinkAPI[0].idDrink);
     }
   };
+
+  const isLocalStorageFavorite = JSON.parse(localStorage.getItem('isFavorite'));
 
   return (
     <section>
@@ -147,8 +153,12 @@ function RecipeInProgress({ isMeal, isDrink }) {
         type="button"
         data-testid="favorite-btn"
         onClick={ handleFavoriteFood }
+        src={ isLocalStorageFavorite ? blackHeartIcon : whiteHeartIcon }
       >
-        Favoritar
+        <img
+          src={ isLocalStorageFavorite ? blackHeartIcon : whiteHeartIcon }
+          alt="FavoritesIcon"
+        />
       </button>
       <section>
         {isMeal
