@@ -100,8 +100,8 @@ function RecipeInProgress({ isMeal, isDrink }) {
     if (pathname.includes('drinks')) {
       favorites = {
         id: drinkAPI[0].idDrink,
-        type: 'drinks',
-        nationality: drinkAPI[0].strArea,
+        type: 'drink',
+        nationality: '',
         category: drinkAPI[0].strCategory,
         alcoholicOrNot: drinkAPI[0].strAlcoholic,
         name: drinkAPI[0].strDrink,
