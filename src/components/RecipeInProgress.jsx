@@ -12,6 +12,8 @@ function RecipeInProgress({ isMeal, isDrink }) {
   const [ingredientDrink, setIngredientDrink] = useState([]);
   const [isChecked, setIsChecked] = useState({});
 
+  console.log(isChecked);
+
   const MIN_MEAL = 9;
   const MAX_MEAL = 28;
   const MIN_DRINK = 17;
