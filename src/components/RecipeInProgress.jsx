@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { bool } from 'prop-types';
 import { fetchApiDrink, fetchApiFood } from '../services/fetchAPI';
 import '../styles/RecipeInProgress.css';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import { saveFavoriteRecipes, removeFavorite } from '../services/localStorage';
+
+const copy = require('clipboard-copy');
 
 function RecipeInProgress({ isMeal, isDrink }) {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const [mealAPI, setMealAPI] = useState([]);
   const [drinkAPI, setDrinkAPI] = useState([]);
   const [ingredientMeal, setIngredientMeal] = useState([]);
   const [ingredientDrink, setIngredientDrink] = useState([]);
   const [isChecked, setIsChecked] = useState({});
-
+  const [isCopy, setIsCopy] = useState(false);
+  const [isFavorite, setFavorite] = useState(false);
   const MIN_MEAL = 9;
   const MAX_MEAL = 28;
   const MIN_DRINK = 17;
@@ -37,6 +44,18 @@ function RecipeInProgress({ isMeal, isDrink }) {
     test();
   }, [id, isMeal]);
 
+  useEffect(() => {
+    if (localStorage.getItem('inProgressRecipes')) {
+      const i = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      setIsChecked(i);
+    }
+  }, []);
+
+  localStorage.setItem('isFavorite', JSON.stringify(isFavorite));
+
+  const setIngredientInLocalStorage = () => localStorage
+    .setItem('inProgressRecipes', JSON.stringify(isChecked));
+
   const handleChange = ({ target }) => {
     const { checked, name } = target;
     setIsChecked((prevState) => ({
@@ -46,6 +65,51 @@ function RecipeInProgress({ isMeal, isDrink }) {
   };
 
   const isIngredientChecked = (ingredient) => isChecked && isChecked[ingredient];
+
+  const copyURL = () => {
+    const MAX = 3;
+    const URL = pathname.split('/').slice(0, MAX).join('/');
+    copy(`http://localhost:3000${URL}`);
+    setIsCopy(true);
+  };
+
+  const handleFavoriteFood = () => {
+    let favorites = {};
+    if (pathname.includes('meals')) {
+      favorites = {
+        id: mealAPI[0].idMeal,
+        type: 'meal',
+        nationality: mealAPI[0].strArea,
+        category: mealAPI[0].strCategory,
+        alcoholicOrNot: '',
+        name: mealAPI[0].strMeal,
+        image: mealAPI[0].strMealThumb,
+      };
+      saveFavoriteRecipes(favorites);
+      setFavorite((prevState) => !prevState);
+      if (isFavorite) {
+        return removeFavorite(mealAPI[0].idMeal);
+      }
+    }
+    if (pathname.includes('drinks')) {
+      favorites = {
+        id: drinkAPI[0].idDrink,
+        type: 'drinks',
+        nationality: drinkAPI[0].strArea,
+        category: drinkAPI[0].strCategory,
+        alcoholicOrNot: drinkAPI[0].strAlcoholic,
+        name: drinkAPI[0].strDrink,
+        image: drinkAPI[0].strDrinkThumb,
+      };
+      saveFavoriteRecipes(favorites);
+      setFavorite((prevState) => !prevState);
+    }
+    if (isFavorite) {
+      return removeFavorite(drinkAPI[0].idDrink);
+    }
+  };
+
+  const isLocalStorageFavorite = JSON.parse(localStorage.getItem('isFavorite'));
 
   return (
     <section>
@@ -80,14 +144,21 @@ function RecipeInProgress({ isMeal, isDrink }) {
       <button
         type="button"
         data-testid="share-btn"
+        onClick={ copyURL }
       >
         Compartilhar
       </button>
+      {isCopy && <span>Link copied!</span>}
       <button
         type="button"
         data-testid="favorite-btn"
+        onClick={ handleFavoriteFood }
+        src={ isLocalStorageFavorite ? blackHeartIcon : whiteHeartIcon }
       >
-        Favoritar
+        <img
+          src={ isLocalStorageFavorite ? blackHeartIcon : whiteHeartIcon }
+          alt="FavoritesIcon"
+        />
       </button>
       <section>
         {isMeal
@@ -105,6 +176,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
                 type="checkbox"
                 name={ `ingrediente${index}` }
                 onChange={ handleChange }
+                onClick={ setIngredientInLocalStorage() }
               />
             </label>
           )))}
@@ -123,6 +195,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
                 type="checkbox"
                 name={ `ingrediente${index}` }
                 onChange={ handleChange }
+                onClick={ setIngredientInLocalStorage() }
               />
             </label>
           )))}
