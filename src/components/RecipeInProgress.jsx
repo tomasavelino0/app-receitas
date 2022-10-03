@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { bool } from 'prop-types';
 import { fetchApiDrink, fetchApiFood } from '../services/fetchAPI';
@@ -19,6 +20,7 @@ function RecipeInProgress({ isMeal, isDrink }) {
   const [ingredientDrink, setIngredientDrink] = useState([]);
   const [isChecked, setIsChecked] = useState({});
   const [isCopy, setIsCopy] = useState(false);
+  const [isFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const MIN_MEAL = 9;
@@ -51,10 +53,15 @@ function RecipeInProgress({ isMeal, isDrink }) {
       const i = JSON.parse(localStorage.getItem('inProgressRecipes'));
       setIsChecked(i);
     }
+
+  }, []);
+
+  localStorage.setItem('isFavorite', JSON.stringify(isFavorite));
     if (!localStorage.getItem('favoriteRecipes')) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
   }, []);
+
 
   const setIngredientInLocalStorage = () => localStorage
     .setItem('inProgressRecipes', JSON.stringify(isChecked));
@@ -90,6 +97,8 @@ function RecipeInProgress({ isMeal, isDrink }) {
         image: mealAPI[0].strMealThumb,
       };
       saveFavoriteRecipes(favorites);
+      setFavorite((prevState) => !prevState);
+      if (isFavorite) {
       setIsFavorite((prevState) => !prevState);
       if (isFavorite && id === mealAPI[0].idMeal) {
         return removeFavorite(mealAPI[0].idMeal);
@@ -101,6 +110,8 @@ function RecipeInProgress({ isMeal, isDrink }) {
     if (pathname.includes('drinks')) {
       favorites = {
         id: drinkAPI[0].idDrink,
+        type: 'drinks',
+        nationality: drinkAPI[0].strArea,
         type: 'drink',
         nationality: '',
         category: drinkAPI[0].strCategory,
@@ -109,6 +120,14 @@ function RecipeInProgress({ isMeal, isDrink }) {
         image: drinkAPI[0].strDrinkThumb,
       };
       saveFavoriteRecipes(favorites);
+      setFavorite((prevState) => !prevState);
+    }
+    if (isFavorite) {
+      return removeFavorite(drinkAPI[0].idDrink);
+    }
+  };
+
+  const isLocalStorageFavorite = JSON.parse(localStorage.getItem('isFavorite'));
       setIsFavorite((prevState) => !prevState);
       if (isFavorite && id === drinkAPI[0].idDrink) {
         return removeFavorite(drinkAPI[0].idDrink);
@@ -176,6 +195,10 @@ function RecipeInProgress({ isMeal, isDrink }) {
         type="button"
         data-testid="favorite-btn"
         onClick={ handleFavoriteFood }
+        src={ isLocalStorageFavorite ? blackHeartIcon : whiteHeartIcon }
+      >
+        <img
+          src={ isLocalStorageFavorite ? blackHeartIcon : whiteHeartIcon }
         src={ isLocalStorageFavorite() ? blackHeartIcon : whiteHeartIcon }
       >
         <img

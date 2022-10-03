@@ -239,6 +239,7 @@ export default function RecipeDetails() {
             {localStorage
               .getItem('inProgressRecipes') ? 'Continue Recipe' : 'Start Recipe'}
           </button>
+          {sharetext && <p>Link copied!</p>}
         </div>
       ) }
     </div>
