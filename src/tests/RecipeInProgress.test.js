@@ -1,5 +1,4 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
 import renderWithRouter from '../services/renderWithRouter';

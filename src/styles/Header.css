@@ -1,0 +1,30 @@
+.header-container {
+  background-color: #fcdc36;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-title {
+  color: #41197f;
+  margin-top: 5%;
+}
+
+.button-search {
+  background-color: #fcdc36;
+  border: none;
+}
+
+.icon-profile {
+  background-color: #fcdc36;
+  border: none;
+}
+
+.buttons-header {
+  margin-top: 15px;
+}
+
+.logo-icon {
+  margin-left: 26px;
+  margin-top: 6px;
+  width: 10%;
+}
