@@ -165,6 +165,30 @@ export default function RecipeDetails() {
             width="420"
             height="315"
           />}
+          <div>
+            <button
+              type="button"
+              data-testid="favorite-btn"
+              onClick={ () => { handleFavorite(); } }
+              src={ favorite ? blackHeartIcon : whiteHeartIcon }
+            >
+              <img
+                src={ favorite ? blackHeartIcon : whiteHeartIcon }
+                alt="ShareIcon"
+              />
+            </button>
+            <button
+              type="button"
+              data-testid="share-btn"
+              onClick={ shareClick }
+            >
+              <img
+                src={ shareIcon }
+                alt="ShareIcon"
+              />
+            </button>
+            {sharetext && <p>Link copied!</p>}
+          </div>
           <h3>Recomendations</h3>
           <div className="carrosel-scroll">
             {typeFood === 'meals'
@@ -203,38 +227,17 @@ export default function RecipeDetails() {
                 </div>
               ))}
           </div>
-          <div className="container-btn-footer">
-            <button
-              data-testid="start-recipe-btn"
-              type="button"
-              className="buttonStartRecipe"
-              onClick={ () => {
-                window.location.href = `/${typeFood}/${window.location.pathname
-                  .split('/')[2]}/in-progress`;
-              } }
-            >
-              Start Recipe
-            </button>
-          </div>
           <button
+            data-testid="start-recipe-btn"
             type="button"
-            data-testid="favorite-btn"
-            onClick={ () => { handleFavorite(); } }
+            className="buttonStartRecipe"
+            onClick={ () => {
+              window.location.href = `/${typeFood}/${window.location.pathname
+                .split('/')[2]}/in-progress`;
+            } }
           >
-            <img
-              src={ favorite ? blackHeartIcon : whiteHeartIcon }
-              alt="ShareIcon"
-            />
-          </button>
-          <button
-            type="button"
-            data-testid="share-btn"
-            onClick={ shareClick }
-          >
-            <img
-              src={ shareIcon }
-              alt="ShareIcon"
-            />
+            {localStorage
+              .getItem('inProgressRecipes') ? 'Continue Recipe' : 'Start Recipe'}
           </button>
           {sharetext && <p>Link copied!</p>}
         </div>

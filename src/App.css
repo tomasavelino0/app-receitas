@@ -7,13 +7,15 @@
 }
 
 .buttonStartRecipe {
+  background: #fcc436;
+  border: none;
+  border-radius: 5px;
   bottom: 0;
+  color: white;
+  height: 25px;
+  margin-top: 10px;
   position: fixed;
-}
-
-.container-btn-footer {
-  align-items: center;
-  display: flex;
+  width: 150px;
 }
 
 .meals {

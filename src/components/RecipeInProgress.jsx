@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { bool } from 'prop-types';
 import { fetchApiDrink, fetchApiFood } from '../services/fetchAPI';
 import '../styles/RecipeInProgress.css';
@@ -12,6 +12,7 @@ const copy = require('clipboard-copy');
 function RecipeInProgress({ isMeal, isDrink }) {
   const { id } = useParams();
   const { pathname } = useLocation();
+  const history = useHistory();
   const [mealAPI, setMealAPI] = useState([]);
   const [drinkAPI, setDrinkAPI] = useState([]);
   const [ingredientMeal, setIngredientMeal] = useState([]);
@@ -121,6 +122,18 @@ function RecipeInProgress({ isMeal, isDrink }) {
   const isLocalStorageFavorite = () => localStorage.getItem('favoriteRecipes') && JSON
     .parse(localStorage.getItem('favoriteRecipes')).length >= 1;
 
+  const finishedRecipe = () => {
+    history.push('/done-recipes');
+  };
+
+  const verifyCheckeds = () => {
+    const arr = Object.values(isChecked).filter((item) => item === true);
+    if (pathname.includes('meals')) {
+      return ingredientMeal.length !== arr.length;
+    }
+    return ingredientDrink.length !== arr.length;
+  };
+
   return (
     <section>
       {isMeal
@@ -213,8 +226,10 @@ function RecipeInProgress({ isMeal, isDrink }) {
       <button
         type="button"
         data-testid="finish-recipe-btn"
+        onClick={ finishedRecipe }
+        disabled={ verifyCheckeds() }
       >
-        Receita Finalizada
+        Finish Recipe
       </button>
     </section>
   );

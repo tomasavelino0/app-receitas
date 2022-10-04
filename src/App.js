@@ -6,7 +6,7 @@ import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/Done Recipes';
-import FavoriteRecipes from './pages/Favorite Recipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
 import DrinksRecipes from './pages/Drinks Recipes';
 import MealsRecipes from './pages/Meals Recipes';
 import DrinksRecipesProgress from './pages/Drinks Recipes Progress';
