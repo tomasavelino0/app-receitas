@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from '../components/Recipes';
 import RecipesContext from '../context/RecipesContext';
+import '../styles/Meals.css';
 
 const MIN = 11;
 
@@ -11,7 +12,7 @@ function Meals() {
   const recipesFiltered = recipes.meals.filter((_, index) => index <= MIN);
 
   return (
-    <section>
+    <section className="meals-container">
       <Header isRenderSearch isRenderProfile title="Meals" />
       {recipesFiltered.length > 0 ? (recipesFiltered.map((recipe, index) => (
         <section key={ index } data-testid={ `${index}-recipe-card` }>
